@@ -1,2 +1,28 @@
 server:
   port: 7777
+
+spring:
+  application:
+    name: personal-admin
+  #DBS
+  datasource:
+    hikari:
+      maximum-pool-size: 20 # Số lượng tối đa kết nối
+      minimum-idle: 5 # Số lượng kết nối tối thiểu trong pool
+    url: jdbc:mysql://localhost:3316/personal_admin
+    username: root
+    password: root1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: none # Không tự động tạo/ cập nhật bảng thay vì update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+  jackson:
+    serialization:
+      indent-output: true
