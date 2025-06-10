@@ -8,6 +8,9 @@ import com.personal_admin.application.service.AuthApplicationService;
 import com.personal_admin.controller.model.vo.ResultMessage;
 import com.personal_admin.domain.model.Credentials;
 import com.personal_admin.domain.model.Token;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,11 @@ public class AuthController {
     @Resource
     private AuthApplicationService authApplicationService;
 
+    @Operation(summary = "User login", description = "Authenticate user and return access and refresh tokens")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login successful"),
+            @ApiResponse(responseCode = "400", description = "Invalid credentials")
+    })
     @PostMapping("/login")
     public ResultMessage<LoginResponse> login(@RequestBody LoginRequest request) {
         Credentials credentials = new Credentials(request.getEmail(), request.getPassword());
@@ -40,6 +48,11 @@ public class AuthController {
         return response;
     }
 
+    @Operation(summary = "Refresh token", description = "Generate new access token using refresh token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Token refreshed"),
+            @ApiResponse(responseCode = "400", description = "Invalid refresh token")
+    })
     @PostMapping("/refresh")
     public ResultMessage<LoginResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
         Token token = authApplicationService.refreshToken(request.getRefreshToken());
@@ -58,6 +71,11 @@ public class AuthController {
         return response;
     }
 
+    @Operation(summary = "User registration", description = "Register a new user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "AUTH_REGISTER_SUCCESS", description = "User created successfully"),
+            @ApiResponse(responseCode = "AUTH_REGISTER_FAIL", description = "Registration failed")
+    })
     @PostMapping("/register")
     public ResultMessage<String> register(@RequestBody LoginRequest request) {
         Credentials credentials = new Credentials(request.getEmail(), request.getPassword());
