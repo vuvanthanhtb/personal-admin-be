@@ -18,7 +18,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: none # Không tự động tạo/ cập nhật bảng thay vì update
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -26,3 +26,9 @@ spring:
   jackson:
     serialization:
       indent-output: true
+
+jwt:
+  secret: O&!l?[-%$37CQb!T':$`f"_CQr-Lht@XF&"SH^U8MO8ZJt-IH%J&(/qd6RBqBJ-
+  expiration: 3600000
+  refresh:
+    expiration: 604800000
